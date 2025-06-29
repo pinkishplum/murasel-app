@@ -1,0 +1,8 @@
+
+
+- ROLE BASE ACCESS
+ [ADMIN , USER]
+
+ - use prisma
+
+- upgrade to latest next auth

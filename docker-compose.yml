@@ -1,0 +1,37 @@
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: murasel-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGODB_URI=mongodb://admin:secret123@mongo:27017/muraseldb?authSource=admin
+      - GOOGLE_CLIENT_ID=192527176170-pr01fibv8jrqce9vbven8rchptpe437b.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=verysecret
+      - NODE_ENV=production
+    restart: unless-stopped
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+
+  mongo:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret123
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
